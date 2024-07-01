@@ -1,0 +1,77 @@
+/* static/styles.css */
+
+body {
+    background-image: url('../static/fondoo.jpg');
+    background-size: cover; /* Cubre todo el fondo */
+    background-repeat: no-repeat;
+    background-position: center center; /* Centra la imagen en el fondo */
+    background-attachment: fixed; /* Fija la imagen de fondo para que no se desplace con el contenido */
+    color: #ffffff; /* Texto blanco */
+    font-family: 'Arial', sans-serif; /* Fuente Arial */
+    margin: 0; /* Elimina el margen predeterminado del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+}
+
+.container {
+    max-width: 800px; /* Limita el ancho del contenedor */
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.result-header {
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Impact', Charcoal, sans-serif; /* Fuente Impact */
+    text-transform: uppercase;
+}
+.form-group {
+    margin-bottom: 20px; /* Espacio entre elementos */
+}
+.form-control {
+    background-color: #ffffff; /* Fondo blanco */
+    color: #383838; /* Texto morado */
+    border: 1px solid #383838; /* Borde morado */
+}
+.btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #525050; /* Fondo gris oscuro por defecto */
+    border-color: #cccccc; /* Borde gris por defecto */
+    color: #cccccc; /* Texto gris oscuro por defecto */
+}
+
+.btn:hover {
+    background-color: #1f1f1f; /* Gris más oscuro al pasar el cursor */
+    border-color: #cccccc;
+    color: #ffffff; /* Texto blanco al pasar el cursor */
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* Ajustar relación de aspecto del contenedor del mapa */
+}
+#mapa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .column {
+        flex: 0 0 100%; /* Ancho completo en dispositivos móviles */
+    }
+}

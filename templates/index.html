@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('../static/fondoo.jpg');
+            background-size: cover; /* Cubre todo el fondo */
+            background-repeat: no-repeat;
+            background-position: center center; /* Centra la imagen en el fondo */
+            background-attachment: fixed; /* Fija la imagen de fondo para que no se desplace con el contenido */
+            color: #000000; /* Texto blanco */
+            font-family: 'Arial', sans-serif; /* Fuente Arial */
+            margin: 0; /* Elimina el margen predeterminado del cuerpo */
+            padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+        }
+
+
+                .container {
+                    background-color: rgba(31, 31, 31, 0.8); /* Fondo gris más oscuro con 80% de opacidad */
+                    padding: 30px;
+                    border-radius: 20px;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.247);
+                    width: 80%; /* Ancho del contenedor */
+                    max-width: 1200px; /* Ancho máximo del contenedor */
+                    margin: auto; /* Centra el contenedor horizontalmente */
+                    margin-top: 160px; /* Espacio superior */
+                    margin-bottom: 50px; /* Espacio inferior */
+                }   
+
+                .btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #525050; /* Fondo gris oscuro por defecto */
+            border-color: #cccccc; /* Borde gris por defecto */
+            color: #cccccc; /* Texto gris oscuro por defecto */
+        }
+
+        .btn:hover {
+            background-color: #1f1f1f; /* Gris más oscuro al pasar el cursor */
+            border-color: #cccccc;
+            color: #ffffff; /* Texto blanco al pasar el cursor */
+        }
+                .mapa {
+            transition: height 0.5s ease; /* Transición suave para el cambio de altura */
+        }
+
+        /* Añade regla para hacer el contenido responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px; /* Reduce el padding en pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5 p-4 bg-light rounded shadow">
+        <h1 class="text-center  mb-4">RUTA OPTIMA</h1>
+        <form id="ruta-form">
+            <div class="form-group">
+                <label for="partida" class="font-weight-bold text-dark">Lugar de salida:</label>
+                <input type="text" class="form-control" id="partida" placeholder="Ingrese el lugar de partida">
+            </div>
+            <div class="form-group">
+                <label for="destino" class="font-weight-bold text-dark">Lugar de llegada:</label>
+                <input type="text" class="form-control" id="destino" placeholder="Ingrese el lugar de destino">
+            </div>
+            <button type="submit" class="btn btn-block">Calcular Ruta</button>
+        </form>
+
+        <div class="resultados mt-5">
+            <div id="distancia" class="resultado-detalle bg-white border p-3 rounded mt-3"></div>
+            <div id="dijkstra" class="resultado-detalle bg-white border p-3 rounded mt-3">
+                <h4>Ciudades a recorrer:</h4>
+                <ul id="dijkstra-ciudades" class="ciudades-lista list-unstyled pl-3"></ul>
+            </div>
+            <iframe id="mapa" class="mapa w-100 mt-3 rounded" src="" style="height: 400px; display: none;"></iframe>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3 text-center">
+                <button id="limpiar-ruta" class="btn btn-block">Limpiar Ruta</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+         // Evento para limpiar resultados
+      $('#limpiar-ruta').on('click', function(event) {
+        event.preventDefault();
+        $('#ruta').empty(); // Limpiar resultados de la ruta
+        $('#distancia').empty(); // Limpiar distancia
+        $('#dijkstra-ruta').empty(); // Limpiar resultados de Dijkstra
+        $('#genetico-ruta').empty();
+        $('#dijkstra-ciudades').empty(); // Limpiar resultados de Algoritmo Genético
+        $('#mapa').hide(); // Ocultar el mapa interactivo
+    });
+        $(document).ready(function () {
+            $('#ruta-form').on('submit', function (event) {
+                event.preventDefault();
+
+                const partida = $('#partida').val();
+                const destino = $('#destino').val();
+
+                $.ajax({
+                    url: '/ruta',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        partida: partida,
+                        destino: destino
+                    }),
+                    success: function (response) {
+                        $('#distancia').html('<strong>Distancia:</strong> ' + response.distancia);
+                        mostrarCiudades(response.ciudades_por_pasar, '#dijkstra-ciudades');
+                        $('#mapa').attr('src', '/static/ruta_interactiva.html').show();
+                        $('#mapa').css('height', '600px'); // Ajusta la altura del mapa una vez cargado
+                    },
+                    error: function (error) {
+                        $('#resultados').html('<strong>Error:</strong> No se encontró una ruta válida para los destinos seleccionados.');
+                    }
+                });
+
+            });
+
+            function mostrarCiudades(ciudades, destino) {
+                $(destino).empty();
+                ciudades.forEach(function (ciudad) {
+                    $(destino).append('<li>' + ciudad + '</li>');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
