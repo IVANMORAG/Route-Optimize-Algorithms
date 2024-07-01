@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la búsqueda</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+        }
+        li {
+            margin-bottom: 10px;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Vuelos con búsqueda en profundidad iterativa</h1>
+        {% if resultado %}
+            <p>La ruta encontrada es:</p>
+            <ul class="list-group">
+                {% for ciudad in resultado %}
+                    <li class="list-group-item">{{ ciudad }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="error-message">{{ mensaje }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS y Popper.js (opcional, para algunos componentes de Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
